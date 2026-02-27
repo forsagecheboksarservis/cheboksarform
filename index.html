@@ -308,16 +308,11 @@
 <body>
 
 <div class="container">
-    
+
     <!-- =============================================
          СЕКЦИЯ 1: НАЧАЛЬНАЯ ФОРМА (имя, дата, звёзды)
          ============================================= -->
     <div id="formSection">
-        <div class="field">
-    <p style="font-size: 14px; color: #666; line-height: 1.5;">
-        Пожалуйста, указывайте реальные данные
-    </p>
-</div>
 
         <!-- Имя -->
         <div class="field">
@@ -356,7 +351,7 @@
         <!-- Сообщение о редиректе (для 4-5 звёзд) -->
         <div class="redirect-message" id="redirectMessage">
             <div class="result-title">Спасибо за высокую оценку! 🎉</div>
-            <p><span class="loader"></span>Переводим вас на Яндекс.Карты для отзыва...</p>
+            <p><span class="loader"></span>Переводим вас на 2GIS для отзыва...</p>
         </div>
 
         <!-- Блок отзыва + кнопка (для 1-3 звёзд) -->
@@ -380,8 +375,7 @@
         <div class="result-title">Спасибо за обратную связь!</div>
         <div class="result-subtitle">
             Сожалеем, что вы остались недовольны качеством наших услуг.
-            Мы дорожим репутацией и хотим исправиться — оставьте номер телефона ниже или напишите нам.
-            Пожалуйста, указывайте реальные данные.
+            Мы дорожим репутацией и хотим исправиться — оставьте номер телефона ниже или напишите нам
         </div>
 
         <!-- ===========================================
@@ -418,7 +412,7 @@
            onclick="trackMessengerClick('MAX')">
             <svg viewBox="0 0 28 28" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
                 <rect width="28" height="28" rx="6" fill="#0077FF"/>
-                <text x="14" y="19.5" text-anchor="middle" fill="white" font-size="11" font-weight="800" font-family="Arial, sans-serif">MAX</text>
+                <path d="M20.8 12.45c.1-.65.1-1 .1-1s-.5.05-1.15.05c-.55 0-.8-.45-.8-.45s-.35.9-1.65 1.65c-.2.1-.35.05-.35-.15V10.2c0-.5-.15-.7-.6-.7h-1.1c-.35 0-.55.2-.55.45 0 .5.7.6.7 1.95v2.6c0 .35-.1.45-.25.45-.45 0-1.55-1.65-2.2-3.55-.15-.35-.25-.5-.65-.5H11.1c-.4 0-.5.2-.5.45 0 .5.45 2.85 2.1 4.75 1.1 1.3 2.65 2 4.05 2 .85 0 1.05-.2 1.05-.55v-.95c0-.4.1-.5.35-.5.25 0 .6.1 1.5.95.95.95 1.15 1.4 1.7 1.4h1.25c.4 0 .6-.2.5-.6-.15-.4-.65-1-1.3-1.7-.35-.4-.9-.85-1.05-1.1-.25-.3-.2-.4 0-.65l.05-.05c0 0 1.6-2.25 1.8-3.05z" fill="white"/>
             </svg>
             <span>Написать в MAX</span>
         </a>
@@ -458,7 +452,7 @@
 
 <!-- Форма: позитивный отзыв (4-5 звёзд, редирект на Яндекс.Карты) -->
 <form id="hiddenFormPositive"
-      action="https://formsubmit.co/admDaniil1@yandex.ru"
+      action="https://formsubmit.co/andrei.saka@yandex.ru"
       method="POST"
       target="hidden_iframe"
       style="display:none;">
@@ -474,7 +468,7 @@
 
 <!-- Форма: негативный отзыв (1-3 звезды) -->
 <form id="hiddenFormNegative"
-      action="https://formsubmit.co/admDaniil1@yandex.ru"
+      action="https://formsubmit.co/andrei.saka@yandex.ru"
       method="POST"
       target="hidden_iframe"
       style="display:none;">
@@ -490,7 +484,7 @@
 
 <!-- Форма: телефон (негатив) -->
 <form id="hiddenFormPhone"
-      action="https://formsubmit.co/admDaniil1@yandex.ru"
+      action="https://formsubmit.co/andrei.saka@yandex.ru"
       method="POST"
       target="hidden_iframe"
       style="display:none;">
@@ -507,7 +501,7 @@
 
 <!-- Форма: клик по мессенджеру -->
 <form id="hiddenFormMessenger"
-      action="https://formsubmit.co/admDaniil1@yandex.ru"
+      action="https://formsubmit.co/andrei.saka@yandex.ru"
       method="POST"
       target="hidden_iframe"
       style="display:none;">
@@ -530,15 +524,18 @@
      СКРИПТЫ
      ============================================= -->
 <script>
+
     /* ===========================================
        ССЫЛКА НА ЯНДЕКС.КАРТЫ — РЕДАКТИРУЙТЕ ЗДЕСЬ
        =========================================== */
-    const YANDEX_MAPS_URL = 'https://yandex.ru/maps/org/forsazh/59968614833';
+    const YANDEX_MAPS_URL = 'https://2gis.ru/cheboksary/firm/70000001101505671?m=47.188203%2C56.14919%2F16';
 
     /* ===========================================
        ЗАДЕРЖКА ПЕРЕД РЕДИРЕКТОМ (в миллисекундах)
+       2000 = 2 секунды
        =========================================== */
     const REDIRECT_DELAY = 2000;
+
 
     // Состояние
     let selectedRating = 0;
@@ -553,15 +550,6 @@
         star.addEventListener('click', () => {
             selectedRating = parseInt(star.dataset.value);
             updateStars();
-
-            // Проверяем имя
-            userName = document.getElementById('userName').value.trim();
-            if (!userName) {
-                alert('Пожалуйста, введите ваше имя');
-                document.getElementById('userName').focus();
-                return;
-            }
-
             handleStarClick();
         });
 
@@ -589,21 +577,23 @@
         userDate = document.getElementById('userDate').value.trim();
 
         if (selectedRating >= 4) {
-            // === ПОЗИТИВ ===
+            // === ПОЗИТИВ: скрываем форму отзыва, показываем сообщение, редиректим ===
             document.getElementById('negativeReviewBlock').style.display = 'none';
             document.getElementById('redirectMessage').style.display = 'block';
 
+            // Отправляем данные на FormSubmit
             document.getElementById('hfPosName').value = userName || 'Не указано';
             document.getElementById('hfPosDate').value = userDate || 'Не указано';
             document.getElementById('hfPosRating').value = selectedRating + ' из 5';
             document.getElementById('hiddenFormPositive').submit();
 
+            // Редирект через задержку
             setTimeout(() => {
                 window.location.href = YANDEX_MAPS_URL;
             }, REDIRECT_DELAY);
 
         } else {
-            // === НЕГАТИВ ===
+            // === НЕГАТИВ: показываем поле для отзыва ===
             document.getElementById('redirectMessage').style.display = 'none';
             document.getElementById('negativeReviewBlock').style.display = 'block';
         }
@@ -615,12 +605,14 @@
         userDate = document.getElementById('userDate').value.trim();
         reviewText = document.getElementById('userReview').value.trim();
 
+        // Отправляем на FormSubmit
         document.getElementById('hfNegName').value = userName || 'Не указано';
         document.getElementById('hfNegDate').value = userDate || 'Не указано';
         document.getElementById('hfNegRating').value = selectedRating + ' из 5';
         document.getElementById('hfNegReview').value = reviewText || 'Без текста';
         document.getElementById('hiddenFormNegative').submit();
 
+        // Скрыть форму, показать негативный блок
         document.getElementById('formSection').style.display = 'none';
         document.getElementById('negativeSection').style.display = 'block';
     }
@@ -678,6 +670,7 @@
 
         input.value = formatted;
     }
+
 </script>
 
 </body>
